@@ -9,11 +9,14 @@ interface PictureDao {
     @Insert
     fun insert(picture: Picture)
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insertAll(pictureList: List<Picture>)
 
     @Query("SELECT * FROM pictures")
     fun getAllPictures(): Flow<List<Picture>>
+
+    @Query("SELECT * FROM pictures WHERE id = :pictureId")
+    fun getPictureFromId(pictureId: Int): Flow<Picture>
 
     @Update
     fun update(picture: Picture)

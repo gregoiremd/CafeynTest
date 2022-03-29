@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="picture"
+            type="fr.gregoiremd.cafeyntest.storage.Picture" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="20dp">
+
+        <TextView
+            android:id="@+id/titleTextView"
+            android:layout_width="@dimen/no_dimen"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-condensed"
+            android:gravity="center"
+            android:text="@{picture.title}"
+            android:textSize="21sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Here is a title" />
+
+        <ImageView
+            android:id="@+id/pictureImageView"
+            android:layout_width="@dimen/details_picture_width"
+            android:layout_height="@dimen/details_picture_height"
+            android:layout_marginTop="@dimen/details_margin_between_elements"
+            android:scaleType="fitXY"
+            app:imageUrl="@{picture.url}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/titleTextView" />
+
+        <TextView
+            android:id="@+id/pictureIdTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/details_margin_between_elements"
+            android:text="@string/details_picture_id"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="@+id/pictureImageView"
+            app:layout_constraintStart_toStartOf="@+id/pictureImageView"
+            app:layout_constraintTop_toBottomOf="@id/pictureImageView" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/marging_before_text_view"
+            android:fontFamily="sans-serif-black"
+            android:text="@{picture.id}"
+            android:textSize="18sp"
+            app:layout_constraintStart_toEndOf="@id/pictureIdTextView"
+            app:layout_constraintTop_toTopOf="@id/pictureIdTextView" />
+
+        <TextView
+            android:id="@+id/albumIdTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/details_margin_between_elements"
+            android:text="@string/details_album_id"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="@+id/pictureImageView"
+            app:layout_constraintStart_toStartOf="@+id/pictureImageView"
+            app:layout_constraintTop_toBottomOf="@id/pictureIdTextView" />
+
+        <TextView
+            android:id="@+id/details_album_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{picture.albumId}"
+            android:fontFamily="sans-serif-black"
+            android:textSize="18sp"
+            android:layout_marginStart="@dimen/marging_before_text_view"
+            app:layout_constraintStart_toEndOf="@+id/albumIdTextView"
+            app:layout_constraintTop_toTopOf="@id/albumIdTextView" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

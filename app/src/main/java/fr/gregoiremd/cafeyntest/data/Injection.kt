@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModelProvider
 import fr.gregoiremd.cafeyntest.utils.ViewModelFactoryPictureList
 import fr.gregoiremd.cafeyntest.network.PictureListService
 import fr.gregoiremd.cafeyntest.storage.PictureDatabase
+import fr.gregoiremd.cafeyntest.utils.ViewModelFactoryPictureDetails
 
 object Injection{
 
@@ -15,5 +16,9 @@ object Injection{
 
     fun provideViewModelFactoryPicturesList(context: Context): ViewModelProvider.Factory {
         return ViewModelFactoryPictureList(providePictureRepo(context))
+    }
+
+    fun provideViewModelFactoryPictureDetails(context: Context, pictureId: Int): ViewModelProvider.Factory {
+        return ViewModelFactoryPictureDetails(providePictureRepo(context), pictureId)
     }
 }

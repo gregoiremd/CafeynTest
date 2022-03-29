@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import fr.gregoiremd.cafeyntest.data.PictureRepo
 import fr.gregoiremd.cafeyntest.storage.Picture
 
-class PictureListViewModel(pictureRepo: PictureRepo) : ViewModel() {
+class MainViewModel(pictureRepo: PictureRepo) : ViewModel() {
 
     val picturesList: LiveData<List<Picture>> =
         pictureRepo.getAllPictures().asLiveData(viewModelScope.coroutineContext)

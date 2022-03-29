@@ -1,14 +1,17 @@
 package fr.gregoiremd.cafeyntest.data
 
-import fr.gregoiremd.cafeyntest.network.PictureResponse
 import fr.gregoiremd.cafeyntest.network.PictureListService
+import fr.gregoiremd.cafeyntest.network.PictureResponse
 import fr.gregoiremd.cafeyntest.storage.Picture
 import fr.gregoiremd.cafeyntest.storage.PictureDao
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flow
 
-class PictureRepo(private val pictureListService: PictureListService, private val pictureDao: PictureDao) {
+class PictureRepo(
+    private val pictureListService: PictureListService,
+    private val pictureDao: PictureDao
+) {
 
     private fun getAllRemotePictures(): Flow<List<PictureResponse>> = flow {
         emit(emptyList())
@@ -26,9 +29,8 @@ class PictureRepo(private val pictureListService: PictureListService, private va
             toUiModel(remote, local)
         }
 
-    fun updatePicture(picture: Picture) {
-        pictureDao.update(picture)
-    }
+    fun getPictureFromId(pictureId: Int): Flow<Picture> =
+        pictureDao.getPictureFromId(pictureId)
 
     private fun toDbModel(pictureResponseList: List<PictureResponse>): List<Picture> {
         return pictureResponseList.map {
@@ -42,7 +44,10 @@ class PictureRepo(private val pictureListService: PictureListService, private va
         }
     }
 
-    private fun toUiModel(pictureResponseList: List<PictureResponse>, pictureList: List<Picture>): List<Picture> {
+    private fun toUiModel(
+        pictureResponseList: List<PictureResponse>,
+        pictureList: List<Picture>
+    ): List<Picture> {
         return if (pictureResponseList.isEmpty()) {
             pictureList
         } else return pictureResponseList.map {
