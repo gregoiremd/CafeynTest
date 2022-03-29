@@ -8,3 +8,12 @@ plugins {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+
+ext {
+    archComponentsVersion = "2.4.1"
+    roomVersion = "2.4.2"
+    retrofitVersion = "2.9.0"
+    okhttpLoggingInterceptorVersion = "4.9.0"
+    expressoVersion = "3.4.0"
+    coroutinesVersion = "1.3.2"
+}
