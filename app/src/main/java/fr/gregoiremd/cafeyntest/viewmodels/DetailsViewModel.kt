@@ -1,14 +1,27 @@
 package fr.gregoiremd.cafeyntest.viewmodels
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asLiveData
-import androidx.lifecycle.viewModelScope
-import fr.gregoiremd.cafeyntest.data.PictureRepo
+import androidx.lifecycle.ViewModelProvider
+import fr.gregoiremd.cafeyntest.data.PictureRepository
 import fr.gregoiremd.cafeyntest.storage.Picture
+import kotlin.coroutines.suspendCoroutine
 
-class DetailsViewModel(pictureRepo: PictureRepo, pictureId: Int) : ViewModel() {
+class DetailsViewModel(private val repository: PictureRepository, private val picture: Picture) : ViewModel() {
 
-    val picture: LiveData<Picture> = pictureRepo.getPictureFromId(pictureId)
-        .asLiveData(viewModelScope.coroutineContext)
+    suspend fun getPicture(pictureId: Int): Picture {
+        return suspendCoroutine {
+            repository.getPictureFromId(pictureId)
+        }
+    }
+}
+
+class DetailsViewModelFactory(private val repository: PictureRepository, private val picture: Picture) :
+    ViewModelProvider.Factory {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        if (modelClass.isAssignableFrom(DetailsViewModel::class.java)) {
+            @Suppress("UNCHECKED_CAST")
+            return DetailsViewModel(repository, picture) as T
+        }
+        throw IllegalArgumentException("Unknown ViewModel class")
+    }
 }

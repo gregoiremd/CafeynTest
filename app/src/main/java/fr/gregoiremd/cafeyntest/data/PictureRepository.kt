@@ -8,10 +8,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flow
 
-class PictureRepo(
-    private val pictureListService: PictureListService,
-    private val pictureDao: PictureDao
-) {
+class PictureRepository(private val pictureListService: PictureListService, private val pictureDao: PictureDao) {
 
     private fun getAllRemotePictures(): Flow<List<PictureResponse>> = flow {
         emit(emptyList())
@@ -19,9 +16,7 @@ class PictureRepo(
             val networkResult = pictureListService.getPictures()
             emit(networkResult)
             pictureDao.insertAll(toDbModel(networkResult))
-        } catch (throwable: Throwable) {
-
-        }
+        } catch (throwable: Throwable) {}
     }
 
     fun getAllPictures(): Flow<List<Picture>> =
@@ -29,8 +24,7 @@ class PictureRepo(
             toUiModel(remote, local)
         }
 
-    fun getPictureFromId(pictureId: Int): Flow<Picture> =
-        pictureDao.getPictureFromId(pictureId)
+    fun getPictureFromId(pictureId: Int): Picture = pictureDao.getPictureFromId(pictureId)
 
     private fun toDbModel(pictureResponseList: List<PictureResponse>): List<Picture> {
         return pictureResponseList.map {
@@ -44,10 +38,7 @@ class PictureRepo(
         }
     }
 
-    private fun toUiModel(
-        pictureResponseList: List<PictureResponse>,
-        pictureList: List<Picture>
-    ): List<Picture> {
+    private fun toUiModel(pictureResponseList: List<PictureResponse>, pictureList: List<Picture>): List<Picture> {
         return if (pictureResponseList.isEmpty()) {
             pictureList
         } else return pictureResponseList.map {

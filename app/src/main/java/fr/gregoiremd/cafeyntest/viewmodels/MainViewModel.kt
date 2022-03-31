@@ -1,14 +1,23 @@
 package fr.gregoiremd.cafeyntest.viewmodels
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asLiveData
-import androidx.lifecycle.viewModelScope
-import fr.gregoiremd.cafeyntest.data.PictureRepo
+import androidx.lifecycle.*
+import fr.gregoiremd.cafeyntest.data.PictureRepository
 import fr.gregoiremd.cafeyntest.storage.Picture
 
-class MainViewModel(pictureRepo: PictureRepo) : ViewModel() {
+class MainViewModel(pictureRepository: PictureRepository) : ViewModel() {
 
     val picturesList: LiveData<List<Picture>> =
-        pictureRepo.getAllPictures().asLiveData(viewModelScope.coroutineContext)
+        pictureRepository.getAllPictures().asLiveData(viewModelScope.coroutineContext)
+
+}
+
+class MainViewModelFactory(private val pictureRepository: PictureRepository) : ViewModelProvider.Factory {
+
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        if (modelClass.isAssignableFrom(MainViewModel::class.java)) {
+            @Suppress("UNCHECKED_CAST")
+            return MainViewModel(pictureRepository) as T
+        }
+        throw IllegalArgumentException("Unknown ViewModel class")
+    }
 }
