@@ -8,11 +8,8 @@ import androidx.room.RoomDatabase
 /**
  * Database to store all pictures
  */
-@Database(
-    entities = [Picture::class],
-    version = 2,
-    exportSchema = false
-)
+@Database(entities = [Picture::class], version = 2, exportSchema = false)
+
 abstract class PictureDatabase : RoomDatabase() {
 
     abstract fun pictureDao(): PictureDao
@@ -22,18 +19,12 @@ abstract class PictureDatabase : RoomDatabase() {
         @Volatile
         private var INSTANCE: PictureDatabase? = null
 
-        fun getInstance(context: Context): PictureDatabase =
-            INSTANCE ?: synchronized(this) {
-                INSTANCE ?: buildDatabase(context).also { INSTANCE = it }
+        fun getDatabase(context: Context): PictureDatabase {
+            return INSTANCE ?: synchronized(this) {
+                val instance = Room.databaseBuilder(context.applicationContext, PictureDatabase::class.java, "pictures_database").build()
+                INSTANCE = instance
+                instance
             }
-
-        private fun buildDatabase(context: Context) =
-            Room.databaseBuilder(
-                context.applicationContext,
-                PictureDatabase::class.java,
-                "pictures.db"
-            )
-                .fallbackToDestructiveMigration()
-                .build()
+        }
     }
 }

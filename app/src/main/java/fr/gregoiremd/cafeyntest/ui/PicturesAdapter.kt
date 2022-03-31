@@ -17,7 +17,7 @@ class PicturesAdapter(private val context: Context, private val pictures: Mutabl
     inner class PicturesViewHolder(private val binding: PictureItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(picture: Picture) {
-            binding.setVariable(BR.picture, picture)
+            binding.picture = picture
             binding.root.setOnClickListener {
                 onSelect(picture)
             }

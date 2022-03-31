@@ -1,5 +1,6 @@
 package fr.gregoiremd.cafeyntest.storage
 
+import androidx.lifecycle.LiveData
 import androidx.room.*
 import kotlinx.coroutines.flow.Flow
 
@@ -16,7 +17,7 @@ interface PictureDao {
     fun getAllPictures(): Flow<List<Picture>>
 
     @Query("SELECT * FROM pictures WHERE id = :pictureId")
-    fun getPictureFromId(pictureId: Int): Flow<Picture>
+    fun getPictureFromId(pictureId: Int): Picture
 
     @Update
     fun update(picture: Picture)
